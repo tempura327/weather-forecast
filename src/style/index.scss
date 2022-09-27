@@ -1,0 +1,149 @@
+@import './_mixin';
+
+// -------------------------variable-----------------------------
+$primary:#08A6BB;
+$error:#F92472;
+$warning:#E6DB74;
+$white:#ffffff;
+$gray:#333333;
+$gray-light:#AEAEAE;
+
+$colors: (
+    'primary': $primary,
+    'error': $error,
+    'warning':$warning,
+    'white':$white,
+    'gray': $gray,
+    'gray-light':$gray-light,
+);
+
+
+// -------------------------button-------------------------------
+
+.btn{
+    @include skinHelper($primary, $white, 4px solid $primary);
+    @include fontHelper(16px, 700);
+
+    padding: 8px;
+    line-height: 100%;
+    cursor: pointer;
+
+    &:hover{
+        @include skinHelper(darken($primary, 10%), $white, 4px solid darken($primary, 10%));
+    }
+}
+
+.btn, .btn:not(.group_append):hover{
+    @include sizeHelper(auto, auto, 8px);
+}
+
+// -------------------------input-------------------------------
+.group {
+    display: flex;
+
+    * {
+      border-radius: 0;
+    }
+
+    &_prepend {
+      border-radius: 8px 0 0 8px;
+    }
+
+    &_append {
+      border-radius: 0 8px 8px 0;
+    }
+
+    &_input {
+      border: 1px solid $gray-light;
+      outline:none;
+      padding: 4px 8px;
+
+      border-width: 1px;
+
+      &-block{
+        width:100%
+      }
+    }
+}
+// -------------------------spinner-------------------------------
+.spinner{
+    width:16px;
+    height:16px;
+    display: inline-block;
+    border-radius: 50%;
+
+    border: 8px solid;
+    border-color: $primary $primary $primary transparent;
+
+    vertical-align: text-bottom;
+    animation: spinner-animation .75s linear infinite;
+
+    span{
+        border-width: 0;
+        position: absolute;
+        padding: 0;
+        overflow: hidden;
+        white-space: nowrap;
+
+        width: 1px;
+        height: 1px;
+        clip: rect(0, 0, 0, 0);
+    }
+}
+
+@keyframes spinner-animation {
+    0% {
+        transform:rotate(0deg);
+    }
+
+    100% {
+        transform:rotate(360deg);
+    }
+}
+
+// -------------------------text-------------------------------
+
+@each $name, $colorCode in $colors {
+    .text-#{$name} {
+      color:$colorCode;
+    }
+}
+
+// -------------------------spacing-------------------------------
+
+@for $i from 1 through 10{
+    $num:$i * 4;
+
+    .m-#{$i}{
+        margin: $num + px;
+    }
+
+    .mx-#{$i}{
+        margin-left:$num + px;
+        margin-right:$num + px;
+    }
+
+    .my-#{$i}{
+        margin-top:$num + px;
+        margin-bottom:$num + px;
+    }
+
+    .ml-#{$i}{
+        margin-left:$num + px;
+    }
+
+    .p-#{$i}{
+        padding: $num + px;
+    }
+
+    .px-#{$i}{
+        padding-left:$num + px;
+        padding-right:$num + px;        
+
+    }
+
+    .py-#{$i}{
+        padding-top:$num + px;
+        padding-bottom:$num + px;
+    }
+}

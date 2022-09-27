@@ -1,0 +1,25 @@
+@mixin sizeHelper($w, $h, $borderRadius:0){
+    width:$w;
+    height:$h;
+
+    @if $borderRadius != 0{
+        border-radius: $borderRadius;
+    }
+}
+
+@mixin skinHelper($backgroundColor, $color, $border:''){
+    color: $color;
+    background-color: $backgroundColor;
+
+    @if $border != ''{
+        border: $border;
+    }
+}
+
+@mixin fontHelper($fontSize, $fontWeight){
+    font-size: $fontSize;
+
+    @if $fontWeight{
+        font-weight: $fontWeight;
+    }
+}
