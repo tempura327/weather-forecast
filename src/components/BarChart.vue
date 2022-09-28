@@ -1,15 +1,11 @@
 <template>
   <div class="wrapper">
-    <canvas id="chart" class="outline-gray-light"  ref="canvas">
-
-    </canvas>
-
-    <button @click="draw">draw</button>
+    <canvas id="chart" class="outline-gray-light"  ref="canvas"></canvas>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
   import { weatherData } from '@/types/index';
 
@@ -17,12 +13,12 @@
 
   export default class BarChart extends Vue {
     @Prop() datas!:weatherData[];
-    @Prop({default:() => {return {width:800, height:800, padding:20, gridScale:5}}}) setting!:{width:number; height:number; padding:number; gridScale:number};
+    @Prop({default:() => {return {width:700, height:700, padding:20, gridScale:5}}}) setting!:{width:number; height:number; padding:number; gridScale:number};
 
     // data
     canvasSetting = {
-      width:800,
-      height:800,
+      width:700,
+      height:700,
       padding:20, // keep space for scale
       gridScale:5,
     }
@@ -37,13 +33,17 @@
     created():void{
       this.canvasSetting = JSON.parse(JSON.stringify(this.setting));
 
-      this.maxValue = this.convertKToC(Math.max(...this.datas.map((i:weatherData) => i.main.temp_max)));
+      this.maxValue = this.getMax(this.datas.map((i:weatherData) => i.main.temp_max));
+
     }
     mounted():void{
       this.$refs.canvas.width = this.canvasSetting.width;
       this.$refs.canvas.height = this.canvasSetting.height;
       
       this.ctx = this.$refs.canvas.getContext('2d') as CanvasRenderingContext2D;
+    }
+    updated():void{
+      console.log(this.datas);
     }
 
     // methods
@@ -105,15 +105,23 @@
       }
     }
     drawBars() {
+      let dateArr = [...new Set(this.datas.map(i => i.dt_txt.slice(0, 10)))];
+      dateArr = dateArr.slice(1, 5);
+
       const canvasActualHeight = this.canvasSetting.height - this.canvasSetting.padding * 2;
       const canvasActualWidth = this.canvasSetting.width - this.canvasSetting.padding * 2;
    
-      const numberOfBars = this.datas.length;
+      const numberOfBars = dateArr.length;
       const barSize = canvasActualWidth / numberOfBars / 4; // divide a group into 4 parts. 2 for bars and 2 for blank.
 
-      for(let i = 0; i < this.datas.length; i++){
-        const maxTempBarHeight = Math.round((canvasActualHeight * this.convertKToC(this.datas[i].main.temp_max)) / this.maxValue);
-        const minTempBarHeight = Math.round((canvasActualHeight * this.convertKToC(this.datas[i].main.temp_min)) / this.maxValue);
+      for(let i = 0; i < dateArr.length; i++){
+        const data = this.datas.filter(d => d.dt_txt.startsWith(dateArr[i]));
+
+        const maxTemp = Math.max(...data.map(d => d.main.temp_max));
+        const minTemp = Math.min(...data.map(d => d.main.temp_min));
+        
+        const maxTempBarHeight = Math.round((canvasActualHeight * maxTemp) / this.maxValue);
+        const minTempBarHeight = Math.round((canvasActualHeight * minTemp) / this.maxValue);
 
         this.drawBar(
           this.ctx,
@@ -121,7 +129,7 @@
 
           // if this.canvasSetting.padding not be added, scale will be covered by bar on left side. 
           // multiply 4 is because there are 4 parts in a group.
-          this.canvasSetting.padding + (i * barSize) * 4, 
+          this.canvasSetting.padding + (i * barSize) * 4 + barSize, 
           // if maxTempBarHeight not be discounted, bars will drawn from top of canvas.
           // and if this.canvasSetting.padding not be discounted, bars will over bottom of x axis. 
           this.canvasSetting.height - maxTempBarHeight - this.canvasSetting.padding,
@@ -136,7 +144,7 @@
 
           // if this.canvasSetting.padding not be added, scale will be covered by bar on left side. 
           // multiply 4 is because there are 4 parts in a group.          
-          this.canvasSetting.padding + (i * barSize) * 4 + barSize,
+          this.canvasSetting.padding + (i * barSize) * 4 + barSize * 2,
           // if maxTempBarHeight not be discounted, bars will drawn from top of canvas.
           // and if this.canvasSetting.padding not be discounted, bars will over bottom of x axis.           
           this.canvasSetting.height - minTempBarHeight - this.canvasSetting.padding,
@@ -144,25 +152,47 @@
           minTempBarHeight,
           '#08A6BB',
         ); 
+
+        this.drwaLable(dateArr[i], this.canvasSetting.padding + (i * barSize) * 4 + barSize * 1.5);
       }
+
+    }
+    drwaLable(str:string, x:number):void{
+      this.ctx.save();
+
+      this.ctx.fillStyle = '#cccccc';
+      this.ctx.textBaseline = 'bottom';
+      this.ctx.font = 'bold 12px Arial';
+
+      this.ctx.fillText(str, x, this.canvasSetting.height);
+      this.ctx.restore();      
+    }
+    clearCanvas():void{
+      this.ctx.clearRect(0, 0, this.canvasSetting.width, this.canvasSetting.height);
     }
     draw() {
+      this.clearCanvas();
       this.drawGridLines();
       this.drawBars();
     }
-    convertKToC(num:number):number{
-      // the unit of temperature is °K.
-      // in order to make it easy to understand, to covert it into °C. 
-      return num - 273.15;
+    getMax(arr:number[]):number{
+      return Math.max(...arr);
+    }
+
+
+    // watch
+    @Watch('datas')
+    datasWatch(newVal:weatherData[]):void{
+      this.maxValue = this.getMax(newVal.map((i:weatherData) => i.main.temp_max));
+      
+      this.draw();
     }
   }
 </script>
 
 <style scoped>
   .wrapper{
-    width: 800px;
-    display: flex;
-    flex-direction: column;
+    width: 50%;
   }
 
   .outline-gray-light{
