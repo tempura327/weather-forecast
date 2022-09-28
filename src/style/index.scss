@@ -132,8 +132,12 @@ $colors: (
         margin-left:$num + px;
     }
 
+    .mb-#{$i}{
+        margin-bottom:$num + px;
+    }
+
     .p-#{$i}{
-        padding: $num + px;
+        padding:$num + px;
     }
 
     .px-#{$i}{
@@ -146,4 +150,12 @@ $colors: (
         padding-top:$num + px;
         padding-bottom:$num + px;
     }
+}
+
+// -------------------------width-------------------------------
+@include widthHelper(4);
+@include widthHelper(5);
+
+.w-full{
+    width:100%;
 }

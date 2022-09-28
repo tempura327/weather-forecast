@@ -23,3 +23,11 @@
         font-weight: $fontWeight;
     }
 }
+
+@mixin widthHelper($denominator){
+    @for $i from 1 to $denominator{
+        .w-#{$i}\/#{$denominator}{
+            width: ($i / $denominator) * 100 + %;
+        }
+    }    
+}
