@@ -494,4 +494,12 @@
 .w-full {
   width: 100%;
 }
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
 /*# sourceMappingURL=index.css.map */
