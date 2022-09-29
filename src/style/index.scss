@@ -63,6 +63,10 @@ $colors: (
       &-block{
         width:100%
       }
+
+      &.error{
+        border-color: $error;
+      }
     }
 }
 // -------------------------spinner-------------------------------

@@ -48,6 +48,10 @@
   width: 100%;
 }
 
+.group_input.error {
+  border-color: #F92472;
+}
+
 .spinner {
   width: 16px;
   height: 16px;
