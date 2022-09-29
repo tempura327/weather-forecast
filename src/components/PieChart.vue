@@ -97,7 +97,7 @@
     }
     putTitle():void{
       this.ctx.font = '12px Arial';
-      this.ctx.fillStyle = '#AEAEAE';
+      this.ctx.fillStyle = '#333333';
       this.ctx.textAlign = 'start';
       this.ctx.fillText(`${this.title}濕度`, this.canvasSetting.padding, this.canvasSetting.padding + 12);
     }
@@ -109,7 +109,7 @@
         this.ctx.fillRect(this.canvasSetting.padding, this.canvasSetting.height - this.canvasSetting.padding * 2 - 14 * i, 10, 10);
 
         this.ctx.font = '12px Arial';
-        this.ctx.fillStyle = '#AEAEAE';
+        this.ctx.fillStyle = '#333333';
         this.ctx.textAlign = 'start';
         // put texts on the right side of labels. and the horizontal distance between text and label is 2.
         this.ctx.fillText(`濕${this.datas[i].key}%`, this.canvasSetting.padding * 2 + 4, this.canvasSetting.height - 10 - 14 * i);

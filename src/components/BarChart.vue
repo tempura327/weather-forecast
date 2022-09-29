@@ -90,7 +90,7 @@
    
         this.ctx.save();
 
-        this.ctx.fillStyle = '#AEAEAE';
+        this.ctx.fillStyle = '#333333';
         this.ctx.textBaseline = 'bottom';
         this.ctx.font = 'bold 12px Arial';
 
@@ -155,7 +155,7 @@
     drwaLable(str:string, x:number):void{
       this.ctx.save();
 
-      this.ctx.fillStyle = '#AEAEAE';
+      this.ctx.fillStyle = '#333333';
       this.ctx.textBaseline = 'bottom';
       this.ctx.font = 'bold 12px Arial';
 
