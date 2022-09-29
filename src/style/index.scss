@@ -160,12 +160,24 @@ $colors: (
     width:100%;
 }
 
-// -------------------------other-------------------------------
+// -------------------------others-------------------------------
 
 .flex{
     display:flex;
 }
 
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
 .justify-center{
     justify-content: center;
+}
+
+.justify-around{
+    justify-content: space-around;
+}
+
+.justify-between{
+    justify-content: space-between;
 }
