@@ -1,6 +1,6 @@
 <template>
-  <div class="w-1/2">
-    <canvas id="chart" class="outline-gray-light"  ref="canvas"></canvas>
+  <div class="w-2/4">
+    <canvas id="chart" ref="canvas"></canvas>
   </div>
 </template>
 
@@ -90,11 +90,11 @@
    
         this.ctx.save();
 
-        this.ctx.fillStyle = '#cccccc';
+        this.ctx.fillStyle = '#AEAEAE';
         this.ctx.textBaseline = 'bottom';
         this.ctx.font = 'bold 12px Arial';
 
-        this.ctx.fillText(gridValue.toString(), 0, gridY - 2);
+        this.ctx.fillText(`${gridValue.toString()}℃`, 0, gridY - 2);
         this.ctx.restore();
    
         gridValue += this.canvasSetting.gridScale;
@@ -151,12 +151,11 @@
 
         this.drwaLable(dateArr[i], this.canvasSetting.padding + (i * barSize) * 4 + barSize * 1.5);
       }
-
     }
     drwaLable(str:string, x:number):void{
       this.ctx.save();
 
-      this.ctx.fillStyle = '#cccccc';
+      this.ctx.fillStyle = '#AEAEAE';
       this.ctx.textBaseline = 'bottom';
       this.ctx.font = 'bold 12px Arial';
 
@@ -175,7 +174,6 @@
       return Math.max(...arr);
     }
 
-
     // watch
     @Watch('datas')
     datasWatch(newVal:weatherData[]):void{
@@ -185,9 +183,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .outline-gray-light{
-    outline: 1px solid #AEAEAE;
-  }
-</style>
