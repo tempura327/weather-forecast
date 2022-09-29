@@ -1,6 +1,6 @@
 <template>
   <InputGroup :className="className">
-    <input v-model="keyword" class="group_prepend group_input" :class="{ 'group_input-block': isBlock }" type="text" />
+    <input v-model="keyword" :placeholder="placeholder" class="group_prepend group_input" :class="{ 'group_input-block': isBlock }" type="text" />
 
     <template #input-group-append>
       <button class="btn group_append" @click="searchClick">
@@ -23,6 +23,7 @@
   export default class SearchBar extends Vue {
     // props
     @Prop({ default: '' }) className?: string;
+    @Prop({ default: '' }) placeholder?: string;
     @Prop({ default: true }) isBlock!: boolean;
 
     // data
