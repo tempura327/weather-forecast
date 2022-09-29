@@ -1,6 +1,6 @@
 # weather-forecast
 
-![](https://imgur.com/a/7JhIYu8)
+![](https://i.imgur.com/sJYYQFk.png)
 
 ## 功能
 
