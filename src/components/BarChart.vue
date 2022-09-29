@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="w-1/2">
     <canvas id="chart" class="outline-gray-light"  ref="canvas"></canvas>
   </div>
 </template>
@@ -34,16 +34,12 @@
       this.canvasSetting = JSON.parse(JSON.stringify(this.setting));
 
       this.maxValue = this.getMax(this.datas.map((i:weatherData) => i.main.temp_max));
-
     }
     mounted():void{
       this.$refs.canvas.width = this.canvasSetting.width;
       this.$refs.canvas.height = this.canvasSetting.height;
       
       this.ctx = this.$refs.canvas.getContext('2d') as CanvasRenderingContext2D;
-    }
-    updated():void{
-      console.log(this.datas);
     }
 
     // methods
@@ -191,10 +187,6 @@
 </script>
 
 <style scoped>
-  .wrapper{
-    width: 50%;
-  }
-
   .outline-gray-light{
     outline: 1px solid #AEAEAE;
   }
